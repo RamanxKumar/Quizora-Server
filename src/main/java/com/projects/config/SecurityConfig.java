@@ -31,20 +31,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .cors()
             .and()
             .csrf().disable()
             .authorizeHttpRequests()
-                // Public access
+                // Publicly accessible endpoints
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/api/quizzes/quiz/fetch-questions-for-user").permitAll()
+                .requestMatchers("/api/quizzes/subjects").permitAll() // ✅ Allow public access to subjects
 
-                // Admin-only access
+                // Admin-only endpoints
                 .requestMatchers("/api/quizzes/**").hasRole("ADMIN")
 
-                // Everything else requires authentication
+                // All other endpoints require authentication
                 .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -76,7 +76,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://comfy-crumble-6469ee.netlify.app","http://localhost:5173")); // Your frontend origin
+        configuration.setAllowedOrigins(List.of("https://comfy-crumble-6469ee.netlify.app")); // ✅ Add your frontend origins
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
