@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 
 
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://comfy-crumble-6469ee.netlify.app")
 @RestController
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
